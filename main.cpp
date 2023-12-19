@@ -16,6 +16,53 @@ bool validateChoice(int num) {
     }
 }
 
+void easyMode(int choice) {
+    if (choice == 1) {
+
+    }
+}
+
+void gameplayLoop(int choice, int gameType) {
+    int attempts = 5;
+    int guess = 0;
+    int randNum = 0;
+    int valueArray[] = { 10, 100, 1000 };
+
+    if (choice == 1) {
+        randNum = rand() % 10;
+    }
+    else if (choice == 2) {
+        randNum = rand() % 100;
+    }
+    else {
+        randNum = rand() % 1000;
+    }
+
+    while (attempts != 0) {
+        cout << "Enter a number between 1 and " << valueArray[choice - 1] << endl;
+        cin >> guess;
+        if (cin.fail()) {
+            cout << "Must enter a valid integer";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+        else {
+            if (guess > randNum || guess < randNum) {
+                cout << "Incorrect guess" << endl;
+                attempts--;
+            }
+        }
+
+        if (attempts == 0) {
+            cout << "Too bad, looks like you couldn't get the right guess. The correct number was " << randNum << ". You can always try again" << endl;
+        }
+
+    }
+
+    attempts = 5;
+   
+}
+
 int main()
 {
     int userChoice = 0;
@@ -26,12 +73,12 @@ int main()
         cout << "Welcome to the Number Guessing Game!\n" << "Choose an option below to get started\n" << "1. Easy Mode\n" << "2. Hard Mode\n" << "3. Exit" << endl;
         cin >> userChoice;
 
-        if (cin.fail() || validateChoice(userChoice)) {
+        if (cin.fail()) {
             cout << "Invalid response" << endl;
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
-
+        
         if (userChoice == 3) {
             break;
         }
@@ -39,10 +86,22 @@ int main()
         if (userChoice == 1) {
             printMenu();
             cin >> userChoice;
+            if (cin.fail()) {
+                cout << "Invalid response" << endl;
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            }
+            if (userChoice < 1 || userChoice > 3) {
+                cout << "Response must be between 1 and 3" << endl;
+            }
+            else {
+                gameplayLoop(userChoice, 0);
+            }
         }
 
         if (userChoice == 2) {
             printMenu();
+            cin >> userChoice;
         }
 
     }
