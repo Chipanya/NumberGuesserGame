@@ -16,10 +16,18 @@ bool validateChoice(int num) {
     }
 }
 
-void easyMode(int choice) {
-    if (choice == 1) {
-
+void displayGuesses(int arr[], int counter) {
+    for (int i = 0; i < counter; i++) {
+        if (i == counter - 1) {
+            cout << arr[i];
+        }
+        else {
+            cout << arr[i] << ", ";
+        }
     }
+
+
+
 }
 
 void gameplayLoop(int choice, int gameType) {
@@ -27,6 +35,8 @@ void gameplayLoop(int choice, int gameType) {
     int guess = 0;
     int randNum = 0;
     int valueArray[] = { 10, 100, 1000 };
+    int previousGuessArray[5] = {0};
+    int counter = 0;
 
     if (choice == 1) {
         randNum = rand() % 10;
@@ -39,6 +49,13 @@ void gameplayLoop(int choice, int gameType) {
     }
 
     while (attempts != 0) {
+
+        if (previousGuessArray[0] != 0) {
+            cout << "Previous guesses are: ";
+            displayGuesses(previousGuessArray, counter);
+            cout << endl;
+        }
+
         cout << "Enter a number between 1 and " << valueArray[choice - 1] << endl;
         cin >> guess;
         if (cin.fail()) {
@@ -49,6 +66,10 @@ void gameplayLoop(int choice, int gameType) {
         else {
             if (guess > randNum || guess < randNum) {
                 cout << "Incorrect guess" << endl;
+
+                previousGuessArray[counter] = guess;
+                counter++;
+
                 attempts--;
             }
         }
